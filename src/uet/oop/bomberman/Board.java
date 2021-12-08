@@ -222,26 +222,6 @@ public class Board  {
         return null;
     }
 
-    public Entity getEntityAt(double x, double y) {
-        return _entities[(int) x + (int) y * _levelLoader.getWidth()];
-    }
-
-    public void addEntity(int pos, Entity e) {
-        _entities[pos] = e;
-    }
-
-    public void addCharacter(Character e) {
-        _characters.add(e);
-    }
-
-    public void addBomb(Bomb e) {
-        _bombs.add(e);
-    }
-
-    public void addMessage(Message e) {
-        _messages.add(e);
-    }
-
     protected void renderCharacter(Screen screen) {
         Iterator<Character> itr = _characters.iterator();
 
@@ -310,6 +290,26 @@ public class Board  {
             return this._time;
         else
             return this._time--;
+    }
+
+    public Entity getEntityAt(double x, double y) {
+        return _entities[(int) x + (int) y * _levelLoader.getWidth()];
+    }
+
+    public void addEntity(int pos, Entity e) {
+        _entities[pos] = e;
+    }
+
+    public void addCharacter(Character e) {
+        _characters.add(e);
+    }
+
+    public void addBomb(Bomb e) {
+        _bombs.add(e);
+    }
+
+    public void addMessage(Message e) {
+        _messages.add(e);
     }
 
     public Keyboard getInput() {

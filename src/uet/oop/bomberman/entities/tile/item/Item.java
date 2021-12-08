@@ -15,4 +15,5 @@ public abstract class Item extends Tile {
         super(x, y, sprite);
     }
 
+    public abstract boolean collide(Entity e);
 }

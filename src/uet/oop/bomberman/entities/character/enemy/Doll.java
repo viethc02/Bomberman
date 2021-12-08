@@ -6,6 +6,7 @@
 package uet.oop.bomberman.entities.character.enemy;
 
 import uet.oop.bomberman.Board;
+import uet.oop.bomberman.entities.character.enemy.ai.AIHard;
 import uet.oop.bomberman.entities.character.enemy.ai.AILow;
 import uet.oop.bomberman.entities.character.enemy.ai.AIMedium;
 import uet.oop.bomberman.graphics.Sprite;

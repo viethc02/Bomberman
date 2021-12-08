@@ -1,41 +1,41 @@
 package uet.oop.bomberman.entities.character;
 
-import java.util.ArrayList;
-
+import uet.oop.bomberman.entities.Entity;
+import uet.oop.bomberman.entities.LayeredEntity;
+import uet.oop.bomberman.entities.Message;
+import uet.oop.bomberman.entities.bomb.Bomb;
+import uet.oop.bomberman.entities.bomb.Flame;
+import uet.oop.bomberman.entities.character.enemy.Enemy;
 import uet.oop.bomberman.Board;
 import uet.oop.bomberman.Game;
-import uet.oop.bomberman.entities.Entity;
-import uet.oop.bomberman.entities.bomb.Bomb;
 import uet.oop.bomberman.entities.character.enemy.ai.AI;
+import uet.oop.bomberman.entities.character.enemy.ai.AIHard;
 import uet.oop.bomberman.entities.character.enemy.ai.AILow;
+import uet.oop.bomberman.entities.character.enemy.ai.AIMedium;
+import uet.oop.bomberman.entities.tile.item.Item;
 import uet.oop.bomberman.graphics.Screen;
 import uet.oop.bomberman.graphics.Sprite;
 import uet.oop.bomberman.input.Keyboard;
-
-import java.util.Iterator;
-import java.util.List;
-
-import uet.oop.bomberman.entities.LayeredEntity;
-import uet.oop.bomberman.entities.bomb.Flame;
-import uet.oop.bomberman.entities.character.enemy.Enemy;
-import uet.oop.bomberman.entities.tile.item.Item;
 import uet.oop.bomberman.level.Coordinates;
 import uet.oop.bomberman.sound.Sound;
 
-public class Bomber extends Character {
+import java.awt.*;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
-    private List<Bomb> _bombs;
+public class BomberAI extends Character {
+    private java.util.List<Bomb> _bombs;
     protected Keyboard _input;
     public boolean ai_system = true;
     protected AI _ai;
-    public static List<Item> _items = new ArrayList<Item>();//xu li Item
-    /**
-     * nếu giá trị này < 0 thì cho phép đặt đối tượng Bomb tiếp theo,
-     * cứ mỗi lần đặt 1 Bomb mới, giá trị này sẽ được reset về 0 và giảm dần trong mỗi lần update()
-     */
+    public static List<Item> _items = new ArrayList<Item>();
+
+    protected double _steps;
+
     protected int _timeBetweenPutBombs = 0;
 
-    public Bomber(int x, int y, Board board) {
+    public BomberAI(int x, int y, Board board) {
         super(x, y, board);
         _bombs = _board.getBombs();
         _input = _board.getInput();
@@ -43,7 +43,6 @@ public class Bomber extends Character {
         _ai = new AILow();
     }
 
-    @Override
     public void update() {
         clearBombs();
         if (!_alive) {
@@ -135,19 +134,26 @@ public class Bomber extends Character {
         }
     }
 
-    @Override
     protected void calculateMove() {
         // TODO: xử lý nhận tín hiệu điều khiển hướng đi từ _input và gọi move() để thực hiện di chuyển
         // TODO: nhớ cập nhật lại giá trị cờ _moving khi thay đổi trạng thái di chuyển
         int xa = 0, ya = 0;
-        if (_input.up) ya--;
-        if (_input.down) ya++;
-        if (_input.left) xa--;
-        if (_input.right) xa++;
-        if (xa != 0 || ya != 0) {
+        if (_steps <= 0) {
+            _direction = _ai.calculateDirection();
+        }
+
+        if (_direction == 0) ya--;
+        if (_direction == 2) ya++;
+        if (_direction == 3) xa--;
+        if (_direction == 1) xa++;
+
+        if (canMove(xa, ya)) {
             move(xa * Game.getBomberSpeed(), ya * Game.getBomberSpeed());
             _moving = true;
+        } else {
+            _moving = false;
         }
+
     }
 
     @Override
@@ -167,7 +173,6 @@ public class Bomber extends Character {
         //return false;
     }
 
-    @Override
     public void move(double xa, double ya) {
         // TODO: sử dụng canMove() để kiểm tra xem có thể di chuyển tới điểm đã tính toán hay không và thực hiện thay đổi tọa độ _x, _y
         // TODO: nhớ cập nhật giá trị _direction sau khi di chuyển
@@ -201,8 +206,7 @@ public class Bomber extends Character {
         return true;
     }
 
-    //sprite
-    private void chooseSprite() {
+    protected void chooseSprite() {
         switch (_direction) {
             case 0:
                 _sprite = Sprite.player_up;

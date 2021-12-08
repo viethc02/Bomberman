@@ -11,14 +11,11 @@ import uet.oop.bomberman.entities.character.enemy.ai.AI;
 import uet.oop.bomberman.graphics.Screen;
 import uet.oop.bomberman.graphics.Sprite;
 import uet.oop.bomberman.level.Coordinates;
-
-import java.awt.*;
-import java.util.Random;
-
 import uet.oop.bomberman.sound.Sound;
 
-public abstract class Enemy extends Character {
+import java.awt.*;
 
+public abstract class EnemyOther extends Character {
     protected int _points;
 
     protected double _speed;
@@ -31,7 +28,7 @@ public abstract class Enemy extends Character {
     protected int _finalAnimation = 30;
     protected Sprite _deadSprite;
 
-    public Enemy(int x, int y, Board board, Sprite dead, double speed, int points) {
+    public EnemyOther(int x, int y, Board board, Sprite dead, double speed, int points) {
         super(x, y, board);
 
         _points = points;
@@ -82,6 +79,7 @@ public abstract class Enemy extends Character {
         // TODO: sử dụng canMove() để kiểm tra xem có thể di chuyển tới điểm đã tính toán hay không
         // TODO: sử dụng move() để di chuyển
         // TODO: nhớ cập nhật lại giá trị cờ _moving khi thay đổi trạng thái di chuyển
+        _moving = false;
         int xa = 0, ya = 0;
         if (_steps <= 0) {
             _direction = _ai.calculateDirection();
@@ -138,7 +136,7 @@ public abstract class Enemy extends Character {
 
         Entity a = _board.getEntity(xx, yy, this); //entity of the position we want to go
 
-        return a.collide(this);
+        return this.collide(a);
     }
 
     @Override

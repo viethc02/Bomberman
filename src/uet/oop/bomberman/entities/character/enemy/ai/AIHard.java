@@ -2,19 +2,19 @@ package uet.oop.bomberman.entities.character.enemy.ai;
 
 import javafx.util.Pair;
 import uet.oop.bomberman.Board;
-import uet.oop.bomberman.entities.Entity;
 import uet.oop.bomberman.entities.character.Bomber;
-import uet.oop.bomberman.entities.character.enemy.Enemy;
+import uet.oop.bomberman.entities.character.enemy.EnemyOther;
+import uet.oop.bomberman.level.FileLevelLoader;
 
 import java.util.LinkedList;
 import java.util.Queue;
 
 public class AIHard extends AI {
     Bomber _bomber;
-    Enemy _e;
+    EnemyOther _e;
     Board _board;
 
-    public AIHard(Bomber bomber, Enemy e, Board board) {
+    public AIHard(Bomber bomber, EnemyOther e, Board board) {
         _bomber = bomber;
         _e = e;
         _board = board;
@@ -43,6 +43,7 @@ public class AIHard extends AI {
         p = new Pair<>(yEnemy, xEnemy);
 
         dx[yEnemy][xEnemy] = true;
+
         q.add(p);
 
         while (q.size() > 0) {
@@ -59,7 +60,6 @@ public class AIHard extends AI {
                 int tmpY = yPlayer;
 
                 while (tmpX != xEnemy || tmpY != yEnemy) {
-
                     p = tr[tmpY][tmpX];
 
                     if (p.getKey() == yEnemy && p.getValue() == xEnemy) {
@@ -89,10 +89,18 @@ public class AIHard extends AI {
                         newY < 0 || newY >= _board.getHeight()) {
                     continue;
                 }
+                int coordinateX = _e.getXTile() + (newX - x);
+                int coordinateY = _e.getYTile() + (newY - y);
+                /*for (int j = 0; j < _board.getHeight(); j++)
+                {
+                    for (int k = 0; k < _board.getWidth(); k++)
+                        System.out.print(FileLevelLoader.get_map()[j][k]);
+                    System.out.println();
+                }
+                System.out.println(coordinateY);
+                System.out.println(coordinateX);*/
 
-                Entity a = _board.getEntityAt(8, 2);
-                System.out.println(a.getClass());
-                if (/*a.collide(_e) && */!dx[newY][newX]) {
+                if (!dx[newY][newX]) {
                     dx[newY][newX] = true;
                     tr[newY][newX] = p;
 

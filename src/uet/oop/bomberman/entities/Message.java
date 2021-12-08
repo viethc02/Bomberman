@@ -66,5 +66,4 @@ public class Message extends Entity {
         return true;
     }
 
-
 }
