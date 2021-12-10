@@ -11,16 +11,17 @@ public class Sprite {
     protected int _realWidth;
     protected int _realHeight;
     private SpriteSheet _sheet;
+    private SpriteSheet1 _sheet1;
     private SpriteSheet2 _sheet2;
     /*
     |--------------------------------------------------------------------------
     | Board sprites
     |--------------------------------------------------------------------------
      */
-    public static Sprite grass = new Sprite(16, 6, 0, SpriteSheet.tiles, 16, 16);
-    public static Sprite brick = new Sprite(16, 7, 0, SpriteSheet.tiles, 16, 16);
-    public static Sprite wall = new Sprite(16, 5, 0, SpriteSheet.tiles, 16, 16);
-    public static Sprite portal = new Sprite(16, 4, 0, SpriteSheet.tiles, 14, 14);
+    public static Sprite grass = new Sprite(16, 8, 4, SpriteSheet1.tiles, 16, 16);
+    public static Sprite brick = new Sprite(16, 6, 15, SpriteSheet1.tiles, 16, 16);
+    public static Sprite wall = new Sprite(16, 5, 13, SpriteSheet1.tiles, 16, 16);
+    public static Sprite portal = new Sprite(16, 8, 7, SpriteSheet1.tiles, 14, 14);
 
     /*
     |--------------------------------------------------------------------------
@@ -187,9 +188,9 @@ public class Sprite {
     | Brick FlameSegment
     |--------------------------------------------------------------------------
      */
-    public static Sprite brick_exploded = new Sprite(16, 7, 1, SpriteSheet.tiles, 16, 16);
-    public static Sprite brick_exploded1 = new Sprite(16, 7, 2, SpriteSheet.tiles, 16, 16);
-    public static Sprite brick_exploded2 = new Sprite(16, 7, 3, SpriteSheet.tiles, 16, 16);
+    public static Sprite brick_exploded = new Sprite(16, 8, 15, SpriteSheet1.tiles, 16, 16);
+    public static Sprite brick_exploded1 = new Sprite(16, 4, 15, SpriteSheet1.tiles, 16, 16);
+    public static Sprite brick_exploded2 = new Sprite(16, 8, 4, SpriteSheet1.tiles, 16, 16);
 
     /*
     |--------------------------------------------------------------------------
@@ -213,6 +214,17 @@ public class Sprite {
         _realWidth = rw;
         _realHeight = rh;
         load();
+    }
+
+    public Sprite(int size, int x, int y, SpriteSheet1 sheet1, int rw, int rh) {
+        SIZE = size;
+        _pixels = new int[SIZE * SIZE];
+        _x = x * SIZE;
+        _y = y * SIZE;
+        _sheet1 = sheet1;
+        _realWidth = rw;
+        _realHeight = rh;
+        load1();
     }
 
     public Sprite(int size, int x, int y, SpriteSheet2 sheet, int rw, int rh) {
@@ -242,6 +254,14 @@ public class Sprite {
         for (int y = 0; y < SIZE; y++) {
             for (int x = 0; x < SIZE; x++) {
                 _pixels[x + y * SIZE] = _sheet._pixels[(x + _x) + (y + _y) * _sheet.SIZE];
+            }
+        }
+    }
+
+    private void load1() {
+        for (int y = 0; y < SIZE; y++) {
+            for (int x = 0; x < SIZE; x++) {
+                _pixels[x + y * SIZE] = _sheet1._pixels[(x + _x) + (y + _y) * _sheet1.SIZE];
             }
         }
     }

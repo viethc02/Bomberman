@@ -28,7 +28,7 @@ public class Board  {
     protected KeyBoardSpe _input;
     protected KeyBoardSpe2 _input2;
     protected Screen _screen;
-    public static boolean PvPMode = false;
+    public static boolean PvPMode = true;
 
     public Entity[] _entities;
     public List<Character> _characters = new ArrayList<>();
