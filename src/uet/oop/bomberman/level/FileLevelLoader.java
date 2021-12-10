@@ -9,7 +9,8 @@ import uet.oop.bomberman.Board;
 import uet.oop.bomberman.Game;
 import uet.oop.bomberman.entities.LayeredEntity;
 import uet.oop.bomberman.entities.character.Bomber;
-import uet.oop.bomberman.entities.character.BomberAI;
+import uet.oop.bomberman.entities.character.Player1;
+import uet.oop.bomberman.entities.character.Player2;
 import uet.oop.bomberman.entities.character.enemy.*;
 import uet.oop.bomberman.entities.tile.Grass;
 import uet.oop.bomberman.entities.tile.Portal;
@@ -106,7 +107,16 @@ public class FileLevelLoader extends LevelLoader {
                         Screen.setOffset(0, 0);
                         _board.addEntity(x + y * _width, new Grass(x, y, Sprite.grass));
                         break;
-
+                    case 'q':
+                        _board.addCharacter(new Player2(Coordinates.tileToPixel(x), Coordinates.tileToPixel(y) + Game.TILES_SIZE, _board));
+                        Screen.setOffset(0, 0);
+                        _board.addEntity(x + y * _width, new Grass(x, y, Sprite.grass));
+                        break;
+                    case 'w':
+                        _board.addCharacter(new Player1(Coordinates.tileToPixel(x), Coordinates.tileToPixel(y) + Game.TILES_SIZE, _board));
+                        Screen.setOffset(0, 0);
+                        _board.addEntity(x + y * _width, new Grass(x, y, Sprite.grass));
+                        break;
                     // Thêm balloon
                     case '1':
                         _board.addCharacter(new Balloon(Coordinates.tileToPixel(x), Coordinates.tileToPixel(y) + Game.TILES_SIZE, _board));
@@ -122,11 +132,11 @@ public class FileLevelLoader extends LevelLoader {
                         _board.addCharacter(new Doll(Coordinates.tileToPixel(x), Coordinates.tileToPixel(y) + Game.TILES_SIZE, _board));
                         _board.addEntity(x + y * _width, new Grass(x, y, Sprite.grass));
                         break;
-                    case '4':
+                    case '5':
                         _board.addCharacter(new Kondoria(Coordinates.tileToPixel(x), Coordinates.tileToPixel(y) + Game.TILES_SIZE, _board));
                         _board.addEntity(x + y * _width, new Grass(x, y, Sprite.grass));
                         break;
-                    case '5':
+                    case '4':
                         _board.addCharacter(new Minvo(Coordinates.tileToPixel(x), Coordinates.tileToPixel(y) + Game.TILES_SIZE, _board));
                         _board.addEntity(x + y * _width, new Grass(x, y, Sprite.grass));
                         break;

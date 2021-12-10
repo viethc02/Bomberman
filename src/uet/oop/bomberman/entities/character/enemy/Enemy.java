@@ -3,6 +3,7 @@ package uet.oop.bomberman.entities.character.enemy;
 import uet.oop.bomberman.Board;
 import uet.oop.bomberman.Game;
 import uet.oop.bomberman.entities.Entity;
+import uet.oop.bomberman.entities.LayeredEntity;
 import uet.oop.bomberman.entities.Message;
 import uet.oop.bomberman.entities.bomb.Flame;
 import uet.oop.bomberman.entities.character.Bomber;
@@ -151,6 +152,7 @@ public abstract class Enemy extends Character {
             ((Bomber) e).kill();
             return false;
         }
+        if (e instanceof LayeredEntity) return (e.collide(this));
         return true;
     }
 

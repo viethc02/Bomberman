@@ -5,6 +5,8 @@ import uet.oop.bomberman.Game;
 import uet.oop.bomberman.entities.Entity;
 import uet.oop.bomberman.entities.character.Bomber;
 import uet.oop.bomberman.entities.character.BomberAI;
+import uet.oop.bomberman.entities.character.Player1;
+import uet.oop.bomberman.entities.character.Player2;
 
 import java.awt.*;
 
@@ -119,6 +121,20 @@ public class Screen {
         drawCenteredString("POINTS: " + points, getRealWidth(), getRealHeight() + (Game.TILES_SIZE * 2) * Game.SCALE, g);
     }
 
+    public void drawEndGamePvP(Graphics g) {
+        g.setColor(Color.black);
+        g.fillRect(0, 0, getRealWidth(), getRealHeight());
+
+        Font font = new Font("Arial", Font.PLAIN, 20 * Game.SCALE);
+        g.setFont(font);
+        g.setColor(Color.white);
+        if (Player1._alive == false) {
+            drawCenteredString("Player 2 Win!!", getRealWidth(), getRealHeight(), g);
+        } else {
+            drawCenteredString("Player 1 Win!!", getRealWidth(), getRealHeight(), g);
+        }
+    }
+
     public void drawChangeLevel(Graphics g, int level) {
         g.setColor(Color.black);
         g.fillRect(0, 0, getRealWidth(), getRealHeight());
@@ -126,8 +142,11 @@ public class Screen {
         Font font = new Font("Arial", Font.PLAIN, 20 * Game.SCALE);
         g.setFont(font);
         g.setColor(Color.white);
-        drawCenteredString("LEVEL " + level, getRealWidth(), getRealHeight(), g);
-
+        if (!Board.PvPMode) {
+            drawCenteredString("LEVEL " + level, getRealWidth(), getRealHeight(), g);
+        } else {
+            drawCenteredString("SPECIAL MODE", getRealWidth(), getRealHeight(), g);
+        }
     }
 
     public void drawPaused(Graphics g) {

@@ -11,6 +11,7 @@ public class Sprite {
     protected int _realWidth;
     protected int _realHeight;
     private SpriteSheet _sheet;
+    private SpriteSheet2 _sheet2;
     /*
     |--------------------------------------------------------------------------
     | Board sprites
@@ -46,6 +47,33 @@ public class Sprite {
     public static Sprite player_dead1 = new Sprite(16, 4, 2, SpriteSheet.tiles, 14, 16);
     public static Sprite player_dead2 = new Sprite(16, 5, 2, SpriteSheet.tiles, 13, 15);
     public static Sprite player_dead3 = new Sprite(16, 6, 2, SpriteSheet.tiles, 16, 16);
+
+    /*
+    |--------------------------------------------------------------------------
+    | Bomber2 Sprites
+    |--------------------------------------------------------------------------2
+     */
+    public static Sprite player2_up = new Sprite(16, 0, 0, SpriteSheet2.tiles1, 15, 16);
+    public static Sprite player2_down = new Sprite(16, 2, 0, SpriteSheet2.tiles1, 12, 15);
+    public static Sprite player2_left = new Sprite(16, 3, 0, SpriteSheet2.tiles1, 10, 15);
+    public static Sprite player2_right = new Sprite(16, 1, 0, SpriteSheet2.tiles1, 10, 16);
+
+    public static Sprite player2_up_1 = new Sprite(16, 0, 1, SpriteSheet2.tiles1, 12, 16);
+    public static Sprite player2_up_2 = new Sprite(16, 0, 2, SpriteSheet2.tiles1, 12, 15);
+
+    public static Sprite player2_down_1 = new Sprite(16, 2, 1, SpriteSheet2.tiles1, 12, 15);
+    public static Sprite player2_down_2 = new Sprite(16, 2, 2, SpriteSheet2.tiles1, 12, 16);
+
+    public static Sprite player2_left_1 = new Sprite(16, 3, 1, SpriteSheet2.tiles1, 11, 16);
+    public static Sprite player2_left_2 = new Sprite(16, 3, 2, SpriteSheet2.tiles1, 12, 16);
+
+    public static Sprite player2_right_1 = new Sprite(16, 1, 1, SpriteSheet2.tiles1, 11, 16);
+    public static Sprite player2_right_2 = new Sprite(16, 1, 2, SpriteSheet2.tiles1, 12, 16);
+
+    public static Sprite player2_dead1 = new Sprite(16, 4, 2, SpriteSheet2.tiles1, 14, 16);
+    public static Sprite player2_dead2 = new Sprite(16, 5, 2, SpriteSheet2.tiles1, 13, 15);
+    public static Sprite player2_dead3 = new Sprite(16, 6, 2, SpriteSheet2.tiles1, 16, 16);
+
 
     /*
     |--------------------------------------------------------------------------
@@ -187,6 +215,17 @@ public class Sprite {
         load();
     }
 
+    public Sprite(int size, int x, int y, SpriteSheet2 sheet, int rw, int rh) {
+        SIZE = size;
+        _pixels = new int[SIZE * SIZE];
+        _x = x * SIZE;
+        _y = y * SIZE;
+        _sheet2 = sheet;
+        _realWidth = rw;
+        _realHeight = rh;
+        load2();
+    }
+
     public Sprite(int size, int color) {
         SIZE = size;
         _pixels = new int[SIZE * SIZE];
@@ -203,6 +242,14 @@ public class Sprite {
         for (int y = 0; y < SIZE; y++) {
             for (int x = 0; x < SIZE; x++) {
                 _pixels[x + y * SIZE] = _sheet._pixels[(x + _x) + (y + _y) * _sheet.SIZE];
+            }
+        }
+    }
+
+    private void load2() {
+        for (int y = 0; y < SIZE; y++) {
+            for (int x = 0; x < SIZE; x++) {
+                _pixels[x + y * SIZE] = _sheet2._pixels[(x + _x) + (y + _y) * _sheet2.SIZE];
             }
         }
     }

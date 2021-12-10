@@ -2,6 +2,8 @@ package uet.oop.bomberman;
 
 import uet.oop.bomberman.graphics.Screen;
 import uet.oop.bomberman.gui.Frame;
+import uet.oop.bomberman.input.KeyBoardSpe;
+import uet.oop.bomberman.input.KeyBoardSpe2;
 import uet.oop.bomberman.input.Keyboard;
 import uet.oop.bomberman.sound.Sound;
 
@@ -17,9 +19,9 @@ import java.awt.image.DataBufferInt;
 public class Game extends Canvas {
 
 
-    public static final int TILES_SIZE = 16,
-            WIDTH = TILES_SIZE * (31 / 2),
-            HEIGHT = 13 * TILES_SIZE;
+    public static final int TILES_SIZE = 16;
+    public static final int WIDTH = TILES_SIZE * (31/2);
+    public static final int HEIGHT = 13 * TILES_SIZE;
 
     public static int SCALE = 3;
 
@@ -38,10 +40,15 @@ public class Game extends Canvas {
     protected static int bombRadius = BOMBRADIUS;
     protected static double bomberSpeed = BOMBERSPEED;
 
+    protected static int bombRate2 = BOMBRATE;
+    protected static int bombRadius2 = BOMBRADIUS;
+    protected static double bomberSpeed2 = BOMBERSPEED;
+
 
     protected int _screenDelay = SCREENDELAY;
 
-    private Keyboard _input;
+    private KeyBoardSpe _input;
+    private KeyBoardSpe2 _input2;
     private boolean _running = false;
     private boolean _paused = true;
 
@@ -57,10 +64,12 @@ public class Game extends Canvas {
         _frame.setTitle(TITLE);
 
         screen = new Screen(WIDTH, HEIGHT);
-        _input = new Keyboard();
+        _input = new KeyBoardSpe();
+        _input2 = new KeyBoardSpe2();
 
-        _board = new Board(this, _input, screen);
+        _board = new Board(this, _input, _input2, screen);
         addKeyListener(_input);
+        addKeyListener(_input2);
     }
 
 
@@ -107,6 +116,7 @@ public class Game extends Canvas {
 
     private void update() {
         _input.update();
+        _input2.update();
         _board.update();
     }
 
@@ -181,6 +191,55 @@ public class Game extends Canvas {
         bombRate += i;
     }
 
+    public static double getBomberSpeed2() {
+        return bomberSpeed2;
+    }
+
+    public static int getBombRate2() {
+        return bombRate2;
+    }
+
+    public static int getBombRadius2() {
+        return bombRadius2;
+    }
+
+    public static void addBomberSpeed2(double i) {
+        bomberSpeed2 += i;
+    }
+
+    public static void addBombRadius2(int i) {
+        bombRadius2 += i;
+    }
+
+    public static void addBombRate2(int i) {
+        bombRate2 += i;
+    }
+
+
+    public static void setBombRate(int bombRate) {
+        Game.bombRate = bombRate;
+    }
+
+    public static void setBombRadius(int bombRadius) {
+        Game.bombRadius = bombRadius;
+    }
+
+    public static void setBomberSpeed(double bomberSpeed) {
+        Game.bomberSpeed = bomberSpeed;
+    }
+
+    public static void setBombRate2(int bombRate) {
+        Game.bombRate2 = bombRate;
+    }
+
+    public static void setBombRadius2(int bombRadius) {
+        Game.bombRadius2 = bombRadius;
+    }
+
+    public static void setBomberSpeed2(double bomberSpeed) {
+        Game.bomberSpeed2 = bomberSpeed;
+    }
+
     public void resetScreenDelay() {
         _screenDelay = SCREENDELAY;
     }
@@ -195,17 +254,5 @@ public class Game extends Canvas {
 
     public void pause() {
         _paused = true;
-    }
-
-    public static void setBombRate(int bombRate) {
-        Game.bombRate = bombRate;
-    }
-
-    public static void setBombRadius(int bombRadius) {
-        Game.bombRadius = bombRadius;
-    }
-
-    public static void setBomberSpeed(double bomberSpeed) {
-        Game.bomberSpeed = bomberSpeed;
     }
 }

@@ -5,19 +5,15 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.URL;
 
-/**
- * Tất cả sprite (hình ảnh game) được lưu trữ vào một ảnh duy nhất
- * Class này giúp lấy ra các sprite riêng từ 1 ảnh chung duy nhất đó
- */
-public class SpriteSheet {
+public class SpriteSheet2 {
 
     private String _path;
-    public final int SIZE;
+    public int SIZE;
     public int[] _pixels;
 
-    public static SpriteSheet tiles = new SpriteSheet("/textures/classic2.png", 256);
+    public static SpriteSheet2 tiles1 = new SpriteSheet2("/textures/classic.png", 256);
 
-    public SpriteSheet(String path, int size) {
+    public SpriteSheet2(String path, int size) {
         _path = path;
         SIZE = size;
         _pixels = new int[SIZE * SIZE];
@@ -26,7 +22,7 @@ public class SpriteSheet {
 
     private void load() {
         try {
-            URL a = SpriteSheet.class.getResource(_path);
+            URL a = SpriteSheet2.class.getResource(_path);
             BufferedImage image = ImageIO.read(a);
             int w = image.getWidth();
             int h = image.getHeight();

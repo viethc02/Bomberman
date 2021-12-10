@@ -8,6 +8,8 @@ import uet.oop.bomberman.entities.character.Bomber;
 import uet.oop.bomberman.entities.character.Character;
 import uet.oop.bomberman.exceptions.LoadLevelException;
 import uet.oop.bomberman.graphics.Screen;
+import uet.oop.bomberman.input.KeyBoardSpe;
+import uet.oop.bomberman.input.KeyBoardSpe2;
 import uet.oop.bomberman.input.Keyboard;
 import uet.oop.bomberman.level.FileLevelLoader;
 import uet.oop.bomberman.level.LevelLoader;
@@ -23,12 +25,15 @@ import java.util.List;
 public class Board  {
     protected LevelLoader _levelLoader;
     protected Game _game;
-    protected Keyboard _input;
+    protected KeyBoardSpe _input;
+    protected KeyBoardSpe2 _input2;
     protected Screen _screen;
+    public static boolean PvPMode = false;
 
     public Entity[] _entities;
     public List<Character> _characters = new ArrayList<>();
-    protected List<Bomb> _bombs = new ArrayList<>();
+    protected List<Bomb> _bombs1 = new ArrayList<>();
+    protected List<Bomb> _bombs2 = new ArrayList<>();
     private List<Message> _messages = new ArrayList<>();
 
     private int _screenToShow = -1; //1:endgame, 2:changelevel, 3:paused
@@ -36,9 +41,10 @@ public class Board  {
     private int _time = Game.TIME;
     private int _points = Game.POINTS;
 
-    public Board(Game game, Keyboard input, Screen screen) {
+    public Board(Game game, KeyBoardSpe input, KeyBoardSpe2 input2, Screen screen) {
         _game = game;
         _input = input;
+        _input2 = input2;
         _screen = screen;
 
         loadLevel(1); //start in level 1
@@ -49,7 +55,8 @@ public class Board  {
 
         updateEntities();
         updateCharacters();
-        updateBombs();
+        updateBombs1();
+        updateBombs2();
         updateMessages();
         detectEndGame();
 
@@ -74,7 +81,8 @@ public class Board  {
             }
         }
 
-        renderBombs(screen);
+        renderBombs1(screen);
+        renderBombs2(screen);
         renderCharacter(screen);
 
     }
@@ -83,6 +91,9 @@ public class Board  {
         Game.setBombRadius(1);
         Game.setBombRate(1);
         Game.setBomberSpeed(1.0);
+        Game.setBombRadius2(1);
+        Game.setBombRate2(1);
+        Game.setBomberSpeed2(1.0);
         loadLevel(_levelLoader.getLevel() + 1);
     }
 
@@ -92,8 +103,13 @@ public class Board  {
         _game.resetScreenDelay();
         _game.pause();
         _characters.clear();
-        _bombs.clear();
+        _bombs1.clear();
+        _bombs2.clear();
         _messages.clear();
+
+        if (PvPMode == true) {
+            level = 10;
+        }
 
         try {
             _levelLoader = new FileLevelLoader(this, level);
@@ -112,6 +128,12 @@ public class Board  {
 
     public void endGame() {
         _screenToShow = 1;
+        _game.resetScreenDelay();
+        _game.pause();
+    }
+
+    public void endGamePvP() {
+        _screenToShow = 4;
         _game.resetScreenDelay();
         _game.pause();
     }
@@ -137,6 +159,9 @@ public class Board  {
             case 3:
                 _screen.drawPaused(g);
                 break;
+            case 4:
+                _screen.drawEndGamePvP(g);
+                break;
         }
     }
 
@@ -144,10 +169,16 @@ public class Board  {
 
         Entity res = null;
 
-        res = getFlameSegmentAt((int) x, (int) y);
+        res = getFlameSegmentAt1((int) x, (int) y);
         if (res != null) return res;
 
-        res = getBombAt(x, y);
+        res = getFlameSegmentAt2((int) x, (int) y);
+        if (res != null) return res;
+
+        res = getBomb1At(x, y);
+        if (res != null) return res;
+
+        res = getBomb2At(x, y);
         if (res != null) return res;
 
         res = getCharacterAtExcluding((int) x, (int) y, m);
@@ -158,12 +189,28 @@ public class Board  {
         return res;
     }
 
-    public List<Bomb> getBombs() {
-        return _bombs;
+    public List<Bomb> getBombs1() {
+        return _bombs1;
     }
 
-    public Bomb getBombAt(double x, double y) {
-        Iterator<Bomb> bs = _bombs.iterator();
+    public List<Bomb> getBombs2() {
+        return _bombs2;
+    }
+
+    public Bomb getBomb1At(double x, double y) {
+        Iterator<Bomb> bs = _bombs1.iterator();
+        Bomb b;
+        while (bs.hasNext()) {
+            b = bs.next();
+            if (b.getX() == (int) x && b.getY() == (int) y)
+                return b;
+        }
+
+        return null;
+    }
+
+    public Bomb getBomb2At(double x, double y) {
+        Iterator<Bomb> bs = _bombs2.iterator();
         Bomb b;
         while (bs.hasNext()) {
             b = bs.next();
@@ -207,8 +254,23 @@ public class Board  {
         return null;
     }
 
-    public FlameSegment getFlameSegmentAt(int x, int y) {
-        Iterator<Bomb> bs = _bombs.iterator();
+    public FlameSegment getFlameSegmentAt1(int x, int y) {
+        Iterator<Bomb> bs = _bombs1.iterator();
+        Bomb b;
+        while (bs.hasNext()) {
+            b = bs.next();
+
+            FlameSegment e = b.flameAt(x, y);
+            if (e != null) {
+                return e;
+            }
+        }
+
+        return null;
+    }
+
+    public FlameSegment getFlameSegmentAt2(int x, int y) {
+        Iterator<Bomb> bs = _bombs2.iterator();
         Bomb b;
         while (bs.hasNext()) {
             b = bs.next();
@@ -229,8 +291,15 @@ public class Board  {
             itr.next().render(screen);
     }
 
-    protected void renderBombs(Screen screen) {
-        Iterator<Bomb> itr = _bombs.iterator();
+    protected void renderBombs1(Screen screen) {
+        Iterator<Bomb> itr = _bombs1.iterator();
+
+        while (itr.hasNext())
+            itr.next().render(screen);
+    }
+
+    protected void renderBombs2(Screen screen) {
+        Iterator<Bomb> itr = _bombs2.iterator();
 
         while (itr.hasNext())
             itr.next().render(screen);
@@ -262,9 +331,17 @@ public class Board  {
             itr.next().update();
     }
 
-    protected void updateBombs() {
+    protected void updateBombs1() {
         if (_game.isPaused()) return;
-        Iterator<Bomb> itr = _bombs.iterator();
+        Iterator<Bomb> itr = _bombs1.iterator();
+
+        while (itr.hasNext())
+            itr.next().update();
+    }
+
+    protected void updateBombs2() {
+        if (_game.isPaused()) return;
+        Iterator<Bomb> itr = _bombs2.iterator();
 
         while (itr.hasNext())
             itr.next().update();
@@ -304,16 +381,24 @@ public class Board  {
         _characters.add(e);
     }
 
-    public void addBomb(Bomb e) {
-        _bombs.add(e);
+    public void addBomb1(Bomb e) {
+        _bombs1.add(e);
+    }
+
+    public void addBomb2(Bomb e) {
+        _bombs2.add(e);
     }
 
     public void addMessage(Message e) {
         _messages.add(e);
     }
 
-    public Keyboard getInput() {
+    public KeyBoardSpe getInput() {
         return _input;
+    }
+
+    public KeyBoardSpe2 getInput2() {
+        return _input2;
     }
 
     public LevelLoader getLevel() {
@@ -351,5 +436,7 @@ public class Board  {
     public int getHeight() {
         return _levelLoader.getHeight();
     }
+
+    public Screen getScreen() { return _screen; }
 
 }
