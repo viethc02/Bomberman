@@ -20,7 +20,7 @@ public class Sprite {
      */
     public static Sprite grass = new Sprite(16, 8, 4, SpriteSheet1.tiles, 16, 16);
     public static Sprite brick = new Sprite(16, 6, 15, SpriteSheet1.tiles, 16, 16);
-    public static Sprite wall = new Sprite(16, 5, 13, SpriteSheet1.tiles, 16, 16);
+    public static Sprite wall = new Sprite(16, 3, 13, SpriteSheet1.tiles, 16, 16);
     public static Sprite portal = new Sprite(16, 8, 7, SpriteSheet1.tiles, 14, 14);
 
     /*

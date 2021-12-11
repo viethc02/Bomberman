@@ -9,6 +9,7 @@ import uet.oop.bomberman.Board;
 import uet.oop.bomberman.Game;
 import uet.oop.bomberman.entities.LayeredEntity;
 import uet.oop.bomberman.entities.character.Bomber;
+import uet.oop.bomberman.entities.character.BomberAI;
 import uet.oop.bomberman.entities.character.Player1;
 import uet.oop.bomberman.entities.character.Player2;
 import uet.oop.bomberman.entities.character.enemy.*;
@@ -103,7 +104,11 @@ public class FileLevelLoader extends LevelLoader {
                         break;
                     // Thêm Bomber
                     case 'p':
-                        _board.addCharacter(new Bomber(Coordinates.tileToPixel(x), Coordinates.tileToPixel(y) + Game.TILES_SIZE, _board));
+                        if (Board.ai == false) {
+                            _board.addCharacter(new Bomber(Coordinates.tileToPixel(x), Coordinates.tileToPixel(y) + Game.TILES_SIZE, _board));
+                        } else {
+                            _board.addCharacter(new BomberAI(Coordinates.tileToPixel(x), Coordinates.tileToPixel(y) + Game.TILES_SIZE, _board));
+                        }
                         Screen.setOffset(0, 0);
                         _board.addEntity(x + y * _width, new Grass(x, y, Sprite.grass));
                         break;

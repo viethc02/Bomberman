@@ -8,10 +8,11 @@ import uet.oop.bomberman.entities.bomb.Flame;
 import uet.oop.bomberman.entities.character.enemy.Enemy;
 import uet.oop.bomberman.Board;
 import uet.oop.bomberman.Game;
-import uet.oop.bomberman.entities.character.enemy.ai.AI;
-import uet.oop.bomberman.entities.character.enemy.ai.AIHard;
-import uet.oop.bomberman.entities.character.enemy.ai.AILow;
-import uet.oop.bomberman.entities.character.enemy.ai.AIMedium;
+import uet.oop.bomberman.entities.character.enemy.EnemyOther;
+import uet.oop.bomberman.entities.character.enemy.ai.*;
+import uet.oop.bomberman.entities.tile.Portal;
+import uet.oop.bomberman.entities.tile.Tile;
+import uet.oop.bomberman.entities.tile.destroyable.Brick;
 import uet.oop.bomberman.entities.tile.item.Item;
 import uet.oop.bomberman.graphics.Screen;
 import uet.oop.bomberman.graphics.Sprite;
@@ -25,24 +26,50 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-public class BomberAI extends Character {
-    private java.util.List<Bomb> _bombs;
+public class BomberAI extends Bomber {
+    public static List<Item> _items = new ArrayList<Item>();
+    private final java.util.List<Bomb> _bombs;
     public boolean ai_system = true;
     protected AI _ai;
-    public static List<Item> _items = new ArrayList<Item>();
-
     protected double _steps;
-
+    protected final double rest;
     protected int _timeBetweenPutBombs = 0;
+    protected final double MAX_STEPS;
 
     public BomberAI(int x, int y, Board board) {
         super(x, y, board);
         _bombs = _board.getBombs1();
         _sprite = Sprite.player_right;
-        _ai = new AILow();
+        MAX_STEPS = Game.TILES_SIZE / Game.getBomberSpeed();
+        rest = (MAX_STEPS - (int) MAX_STEPS) / MAX_STEPS;
+        _steps = MAX_STEPS;
+    }
+
+    public Enemy getEnemy() {
+        for (Character c : Board._characters) {
+            if (c instanceof Enemy) {
+                return (Enemy) c;
+            }
+        }
+        return null;
+    }
+
+    public Portal getPortal() {
+        for (Entity c : _board._entities) {
+            if (c instanceof LayeredEntity) {
+                LayeredEntity d = (LayeredEntity) c;
+                for (int i = 0; i < d._entities.size(); i++) {
+                    if (d._entities.get(i) instanceof Portal) {
+                        return (Portal) d._entities.get(i);
+                    }
+                }
+            }
+        }
+        return null;
     }
 
     public void update() {
+        _ai = new AIHardBomber(this, getEnemy(), _board, getPortal());
         clearBombs();
         if (!_alive) {
             afterKill();
@@ -56,7 +83,7 @@ public class BomberAI extends Character {
 
         calculateMove();
 
-        detectPlaceBomb();
+        //detectPlaceBomb();
     }
 
     @Override
@@ -79,7 +106,7 @@ public class BomberAI extends Character {
     /**
      * Kiểm tra xem có đặt được bom hay không? nếu có thì đặt bom tại vị trí hiện tại của Bomber
      */
-    private void detectPlaceBomb() {
+    public void detectPlaceBomb() {
         // TODO: kiểm tra xem phím điều khiển đặt bom có được gõ và giá trị _timeBetweenPutBombs, Game.getBombRate() có thỏa mãn hay không
         // TODO:  Game.getBombRate() sẽ trả về số lượng bom có thể đặt liên tiếp tại thời điểm hiện tại
         // TODO: _timeBetweenPutBombs dùng để ngăn chặn Bomber đặt 2 Bomb cùng tại 1 vị trí trong 1 khoảng thời gian quá ngắn
@@ -139,17 +166,24 @@ public class BomberAI extends Character {
         int xa = 0, ya = 0;
         if (_steps <= 0) {
             _direction = _ai.calculateDirection();
+            _steps = MAX_STEPS;
+            //System.out.println(_direction);
         }
 
         if (_direction == 0) ya--;
         if (_direction == 2) ya++;
         if (_direction == 3) xa--;
         if (_direction == 1) xa++;
+        if (_direction == 5) {
+            detectPlaceBomb();
+        }
 
         if (canMove(xa, ya)) {
+            _steps -= 1 + rest;
             move(xa * Game.getBomberSpeed(), ya * Game.getBomberSpeed());
             _moving = true;
         } else {
+            _steps = 0;
             _moving = false;
         }
 
@@ -160,12 +194,18 @@ public class BomberAI extends Character {
         // TODO: kiểm tra có đối tượng tại vị trí chuẩn bị di chuyển đến và có thể di chuyển tới đó hay không
         for (int c = 0; c < 4; c++) { //colision detection for each corner of the player
             double xt = ((_x + x) + c % 2 * 9) / Game.TILES_SIZE; //divide with tiles size to pass to tile coordinate
-            double yt = ((_y + y) + c / 2 * 10 - 13) / Game.TILES_SIZE; //these values are the best from multiple tests
+            double yt = ((_y + y) + c / 2 * 10 - 15) / Game.TILES_SIZE; //these values are the best from multiple tests
 
             Entity a = _board.getEntity(xt, yt, this);
 
             if (!a.collide(this))
+            {
+                if (a instanceof LayeredEntity)
+                    detectPlaceBomb();
+                //System.out.println(xt);
+                //System.out.println(yt);
                 return false;
+            }
         }
 
         return true;

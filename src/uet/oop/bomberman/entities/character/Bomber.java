@@ -27,7 +27,6 @@ public class Bomber extends Character {
 
     private List<Bomb> _bombs;
     protected KeyBoardSpe _input;
-    protected AI _ai;
     public static List<Item> _items = new ArrayList<Item>();//xu li Item
     /**
      * nếu giá trị này < 0 thì cho phép đặt đối tượng Bomb tiếp theo,
@@ -40,7 +39,8 @@ public class Bomber extends Character {
         _bombs = _board.getBombs1();
         _input = _board.getInput();
         _sprite = Sprite.player_right;
-        _ai = new AILow();
+        _board = board;
+        //System.out.println(_board._characters.size());
     }
 
     @Override

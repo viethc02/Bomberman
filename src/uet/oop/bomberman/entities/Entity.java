@@ -55,12 +55,10 @@ public abstract class Entity {
     }
 
     public int getXTile() {
-        return Coordinates.pixelToTile(_x + _sprite.SIZE / 2);
+        return (int)Math.ceil(Coordinates.pixelToTile(_x + _sprite.SIZE / 2));
     }
 
     public int getYTile() {
-        return Coordinates.pixelToTile(_y - _sprite.SIZE / 2);
+        return (int)Math.ceil(Coordinates.pixelToTile(_y - _sprite.SIZE / 2));
     }
-
-
 }

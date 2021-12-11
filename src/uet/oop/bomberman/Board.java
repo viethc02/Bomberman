@@ -6,6 +6,7 @@ import uet.oop.bomberman.entities.bomb.Bomb;
 import uet.oop.bomberman.entities.bomb.FlameSegment;
 import uet.oop.bomberman.entities.character.Bomber;
 import uet.oop.bomberman.entities.character.Character;
+import uet.oop.bomberman.entities.tile.Portal;
 import uet.oop.bomberman.exceptions.LoadLevelException;
 import uet.oop.bomberman.graphics.Screen;
 import uet.oop.bomberman.input.KeyBoardSpe;
@@ -28,10 +29,11 @@ public class Board  {
     protected KeyBoardSpe _input;
     protected KeyBoardSpe2 _input2;
     protected Screen _screen;
-    public static boolean PvPMode = true;
+    public static boolean PvPMode = false;
+    public static boolean ai = true;
 
     public Entity[] _entities;
-    public List<Character> _characters = new ArrayList<>();
+    public static List<Character> _characters = new ArrayList<>();
     protected List<Bomb> _bombs1 = new ArrayList<>();
     protected List<Bomb> _bombs2 = new ArrayList<>();
     private List<Message> _messages = new ArrayList<>();

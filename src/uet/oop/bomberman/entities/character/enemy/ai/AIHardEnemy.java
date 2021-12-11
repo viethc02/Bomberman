@@ -3,18 +3,20 @@ package uet.oop.bomberman.entities.character.enemy.ai;
 import javafx.util.Pair;
 import uet.oop.bomberman.Board;
 import uet.oop.bomberman.entities.character.Bomber;
+import uet.oop.bomberman.entities.character.enemy.Enemy;
 import uet.oop.bomberman.entities.character.enemy.EnemyOther;
+import uet.oop.bomberman.entities.tile.Grass;
 import uet.oop.bomberman.level.FileLevelLoader;
 
 import java.util.LinkedList;
 import java.util.Queue;
 
-public class AIHard extends AI {
+public class AIHardEnemy extends AI {
     Bomber _bomber;
-    EnemyOther _e;
+    Enemy _e;
     Board _board;
 
-    public AIHard(Bomber bomber, EnemyOther e, Board board) {
+    public AIHardEnemy(Bomber bomber, Enemy e, Board board) {
         _bomber = bomber;
         _e = e;
         _board = board;
@@ -60,6 +62,7 @@ public class AIHard extends AI {
                 int tmpY = yEnemy;
 
                 p = tr[tmpY][tmpX];
+
                 if (p == null)
                     return random.nextInt(4);
                 if (p.getValue() < xEnemy)
@@ -83,7 +86,8 @@ public class AIHard extends AI {
                     continue;
                 }
 
-                if (!dx[newY][newX]) {
+                if (_board.getEntityAt(newX, newY) instanceof Grass &&
+                        !dx[newY][newX]) {
                     dx[newY][newX] = true;
                     tr[newY][newX] = p;
 
