@@ -96,6 +96,7 @@ public class Board  {
         PvPMode = false;
         ai = false;
         _time = Game.TIME;
+        _points = Game.POINTS;
         _screenToShow = 2;
         _game.resetScreenDelay();
         _game.pause();
@@ -119,6 +120,7 @@ public class Board  {
         Player1._alive = true;
         Player2._alive = true;
         _time = Game.TIME;
+        _points = Game.POINTS;
         _screenToShow = 2;
         _game.resetScreenDelay();
         _game.pause();
@@ -140,6 +142,7 @@ public class Board  {
         PvPMode = false;
         ai = true;
         _time = Game.TIME;
+        _points = Game.POINTS;
         _screenToShow = 2;
         _game.resetScreenDelay();
         _game.pause();
