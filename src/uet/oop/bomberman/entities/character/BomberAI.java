@@ -28,7 +28,7 @@ import java.util.List;
 
 public class BomberAI extends Bomber {
     public static List<Item> _items = new ArrayList<Item>();
-    private final java.util.List<Bomb> _bombs;
+    private java.util.List<Bomb> _bombs;
     public boolean ai_system = true;
     protected AI _ai;
     protected double _steps;

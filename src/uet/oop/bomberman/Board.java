@@ -6,6 +6,8 @@ import uet.oop.bomberman.entities.bomb.Bomb;
 import uet.oop.bomberman.entities.bomb.FlameSegment;
 import uet.oop.bomberman.entities.character.Bomber;
 import uet.oop.bomberman.entities.character.Character;
+import uet.oop.bomberman.entities.character.Player1;
+import uet.oop.bomberman.entities.character.Player2;
 import uet.oop.bomberman.entities.tile.Portal;
 import uet.oop.bomberman.exceptions.LoadLevelException;
 import uet.oop.bomberman.graphics.Screen;
@@ -29,8 +31,8 @@ public class Board  {
     protected KeyBoardSpe _input;
     protected KeyBoardSpe2 _input2;
     protected Screen _screen;
-    public static boolean PvPMode = false;
-    public static boolean ai = true;
+    public static boolean PvPMode;
+    public static boolean ai;
 
     public Entity[] _entities;
     public static List<Character> _characters = new ArrayList<>();
@@ -87,6 +89,71 @@ public class Board  {
         renderBombs2(screen);
         renderCharacter(screen);
 
+    }
+
+    public void newGame() {
+        endGame();
+        PvPMode = false;
+        ai = false;
+        _time = Game.TIME;
+        _screenToShow = 2;
+        _game.resetScreenDelay();
+        _game.pause();
+        _characters.clear();
+        _bombs1.clear();
+        _bombs2.clear();
+        _messages.clear();
+        Game.setBombRadius(1);
+        Game.setBombRate(1);
+        Game.setBomberSpeed(1.0);
+        Game.setBombRadius2(1);
+        Game.setBombRate2(1);
+        Game.setBomberSpeed2(1.0);
+        loadLevel(1);
+    }
+
+    public void newPvP() {
+        endGamePvP();
+        PvPMode = true;
+        ai = false;
+        Player1._alive = true;
+        Player2._alive = true;
+        _time = Game.TIME;
+        _screenToShow = 2;
+        _game.resetScreenDelay();
+        _game.pause();
+        _characters.clear();
+        _bombs1.clear();
+        _bombs2.clear();
+        _messages.clear();
+        Game.setBombRadius(1);
+        Game.setBombRate(1);
+        Game.setBomberSpeed(1.0);
+        Game.setBombRadius2(1);
+        Game.setBombRate2(1);
+        Game.setBomberSpeed2(1.0);
+        loadLevel(1);
+    }
+
+    public void newAI() {
+        endGame();
+        PvPMode = false;
+        ai = true;
+        _time = Game.TIME;
+        _screenToShow = 2;
+        _game.resetScreenDelay();
+        _game.pause();
+        _characters.clear();
+        _bombs1.clear();
+        _bombs2.clear();
+        _messages.clear();
+        Game.setBombRadius(1);
+        Game.setBombRate(1);
+        Game.setBomberSpeed(1.0);
+        Game.setBombRadius2(1);
+        Game.setBombRate2(1);
+        Game.setBomberSpeed2(1.0);
+        loadLevel(1);
     }
 
     public void nextLevel() {
@@ -148,6 +215,20 @@ public class Board  {
         }
 
         return total == 0;
+    }
+
+    public void pauseGame() {
+        _game.resetScreenDelay();
+        if (_screenToShow <= 0) {
+            _screenToShow = 3;
+        }
+        _game.pause();
+    }
+
+    public void resumeGame() {
+        _game.resetScreenDelay();
+        _screenToShow = -1;
+        _game.run();
     }
 
     public void drawScreen(Graphics g) {
