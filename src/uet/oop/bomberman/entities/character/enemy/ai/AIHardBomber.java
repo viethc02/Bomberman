@@ -110,8 +110,9 @@ public class AIHardBomber extends AI {
                     kt = true;
                 }
             }
-            if (kt == true)
+            if (kt == true) {
                 return 5;
+            }
         }
 
         if (_board.getBomb1At(xPlayer + 3, yPlayer) != null ||

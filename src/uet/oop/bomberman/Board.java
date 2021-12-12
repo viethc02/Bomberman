@@ -163,6 +163,8 @@ public class Board  {
         Game.setBombRadius2(1);
         Game.setBombRate2(1);
         Game.setBomberSpeed2(1.0);
+        _bombs1.clear();
+        _bombs2.clear();
         loadLevel(_levelLoader.getLevel() + 1);
     }
 

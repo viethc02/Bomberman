@@ -10,6 +10,7 @@ import uet.oop.bomberman.Board;
 import uet.oop.bomberman.Game;
 import uet.oop.bomberman.entities.character.enemy.EnemyOther;
 import uet.oop.bomberman.entities.character.enemy.ai.*;
+import uet.oop.bomberman.entities.tile.Grass;
 import uet.oop.bomberman.entities.tile.Portal;
 import uet.oop.bomberman.entities.tile.Tile;
 import uet.oop.bomberman.entities.tile.destroyable.Brick;
@@ -28,7 +29,7 @@ import java.util.List;
 
 public class BomberAI extends Bomber {
     public static List<Item> _items = new ArrayList<Item>();
-    private java.util.List<Bomb> _bombs;
+    private static java.util.List<Bomb> _bombs;
     public boolean ai_system = true;
     protected AI _ai;
     protected double _steps;
@@ -69,8 +70,9 @@ public class BomberAI extends Bomber {
     }
 
     public void update() {
-        _ai = new AIHardBomber(this, getEnemy(), _board, getPortal());
         clearBombs();
+
+        _ai = new AIHardBomber(this, getEnemy(), _board, getPortal());
         if (!_alive) {
             afterKill();
             return;
@@ -200,10 +202,10 @@ public class BomberAI extends Bomber {
 
             if (!a.collide(this))
             {
-                if (a instanceof LayeredEntity)
-                    detectPlaceBomb();
-                //System.out.println(xt);
-                //System.out.println(yt);
+                if (a instanceof LayeredEntity) {
+                    if (_board.getShow() != 2)
+                        detectPlaceBomb();
+                }
                 return false;
             }
         }
@@ -278,5 +280,9 @@ public class BomberAI extends Bomber {
                 }
                 break;
         }
+    }
+
+    public static List<Bomb> get_bombs() {
+        return _bombs;
     }
 }
