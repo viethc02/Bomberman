@@ -4,9 +4,6 @@ import uet.oop.bomberman.graphics.Screen;
 
 import java.awt.*;
 
-/**
- * Hiển thị thông điệp
- */
 public class Message extends Entity {
 
     protected String _message;
@@ -15,7 +12,7 @@ public class Message extends Entity {
     protected int _size;
 
     /**
-     * Hiển thị message khi tiêu diệt được Enemy ví dụ (+100)
+     * show message when killing Enemy
      *
      * @param message
      * @param x

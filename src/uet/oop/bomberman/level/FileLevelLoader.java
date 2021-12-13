@@ -25,21 +25,21 @@ import uet.oop.bomberman.graphics.Screen;
 import uet.oop.bomberman.graphics.Sprite;
 
 public class FileLevelLoader extends LevelLoader {
-
-    /**
-     * Ma trận chứa thông tin bản đồ, mỗi phần tử lưu giá trị kí tự đọc được từ
-     * ma trận bản đồ trong tệp cấu hình
-     */
     private static char[][] _map;
 
     public FileLevelLoader(Board board, int level) throws LoadLevelException {
         super(board, level);
     }
 
+    public static char[][] get_map() {
+        return _map;
+    }
+
     @Override
+    /**
+     * load map from file.
+     */
     public void loadLevel(int level) {
-        // TODO: đọc dữ liệu từ tệp cấu hình /levels/Level{level}.txt
-        // TODO: cập nhật các giá trị đọc được vào _width, _height, _level, _map
         List<String> list = new ArrayList<>();
         try {
             FileReader fr = new FileReader("res\\levels\\Level" + level + ".txt");//doc tep luu map
@@ -48,7 +48,6 @@ public class FileLevelLoader extends LevelLoader {
             while (!line.equals("")) {
                 list.add(line);
                 line = br.readLine();
-                //doc file txt luu vao list
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -63,7 +62,6 @@ public class FileLevelLoader extends LevelLoader {
                 _map[i][j] = list.get(i + 1).charAt(j);
             }
         }
-        //gan cac phan tu cho mang
     }
 
     @Override
@@ -78,22 +76,20 @@ public class FileLevelLoader extends LevelLoader {
                 int pos = x + y * getWidth();
                 char c = _map[y][x];
                 switch (c) {
-                    // Thêm grass
                     case ' ':
                         _board.addEntity(pos, new Grass(x, y, Sprite.grass));
                         break;
-                    // Thêm Wall
+
                     case '#':
                         _board.addEntity(pos, new Wall(x, y, Sprite.wall));
                         break;
-                    // Thêm Portal
+
                     case 'x':
                         _board.addEntity(pos, new LayeredEntity(x, y,
                                 new Grass(x, y, Sprite.grass),
                                 new Portal(x, y, _board, Sprite.portal),
                                 new Brick(x, y, Sprite.brick)));
                         break;
-                    // Thêm brick
                     case '*':
                         _board.addEntity(x + y * _width,
                                 new LayeredEntity(x, y,
@@ -102,7 +98,6 @@ public class FileLevelLoader extends LevelLoader {
                                 )
                         );
                         break;
-                    // Thêm Bomber
                     case 'p':
                         if (Board.ai == false) {
                             _board.addCharacter(new Bomber(Coordinates.tileToPixel(x), Coordinates.tileToPixel(y) + Game.TILES_SIZE, _board));
@@ -122,17 +117,14 @@ public class FileLevelLoader extends LevelLoader {
                         Screen.setOffset(0, 0);
                         _board.addEntity(x + y * _width, new Grass(x, y, Sprite.grass));
                         break;
-                    // Thêm balloon
                     case '1':
                         _board.addCharacter(new Balloon(Coordinates.tileToPixel(x), Coordinates.tileToPixel(y) + Game.TILES_SIZE, _board));
                         _board.addEntity(x + y * _width, new Grass(x, y, Sprite.grass));
                         break;
-                    // Thêm oneal
                     case '2':
                         _board.addCharacter(new Oneal(Coordinates.tileToPixel(x), Coordinates.tileToPixel(y) + Game.TILES_SIZE, _board));
                         _board.addEntity(pos, new Grass(x, y, Sprite.grass));
                         break;
-                    // Thêm doll
                     case '3':
                         _board.addCharacter(new Doll(Coordinates.tileToPixel(x), Coordinates.tileToPixel(y) + Game.TILES_SIZE, _board));
                         _board.addEntity(x + y * _width, new Grass(x, y, Sprite.grass));
@@ -145,9 +137,6 @@ public class FileLevelLoader extends LevelLoader {
                         _board.addCharacter(new Minvo(Coordinates.tileToPixel(x), Coordinates.tileToPixel(y) + Game.TILES_SIZE, _board));
                         _board.addEntity(x + y * _width, new Grass(x, y, Sprite.grass));
                         break;
-
-                    // Thêm oneal
-                    // Thêm BomItem            
                     case 'b':
                         LayeredEntity layer = new LayeredEntity(x, y,
                                 new Grass(x, y, Sprite.grass),
@@ -155,7 +144,6 @@ public class FileLevelLoader extends LevelLoader {
                                 new Brick(x, y, Sprite.brick));
                         _board.addEntity(pos, layer);
                         break;
-                    // Thêm SpeedItem
                     case 's':
                         layer = new LayeredEntity(x, y,
                                 new Grass(x, y, Sprite.grass),
@@ -163,7 +151,6 @@ public class FileLevelLoader extends LevelLoader {
                                 new Brick(x, y, Sprite.brick));
                         _board.addEntity(pos, layer);
                         break;
-                    // Thêm FlameItem
                     case 'f':
                         layer = new LayeredEntity(x, y,
                                 new Grass(x, y, Sprite.grass),
@@ -179,9 +166,5 @@ public class FileLevelLoader extends LevelLoader {
                 }
             }
         }
-    }
-
-    public static char[][] get_map() {
-        return _map;
     }
 }

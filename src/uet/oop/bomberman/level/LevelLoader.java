@@ -3,9 +3,6 @@ package uet.oop.bomberman.level;
 import uet.oop.bomberman.Board;
 import uet.oop.bomberman.exceptions.LoadLevelException;
 
-/**
- * Load và lưu trữ thông tin bản đồ các màn chơi
- */
 public abstract class LevelLoader {
 
     protected int _width = 20, _height = 20; // default values just for testing

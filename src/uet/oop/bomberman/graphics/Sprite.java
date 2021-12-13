@@ -1,8 +1,5 @@
 package uet.oop.bomberman.graphics;
 
-/**
- * Lưu trữ thông tin các pixel của 1 sprite (hình ảnh game)
- */
 public class Sprite {
 
     public final int SIZE;
@@ -18,10 +15,10 @@ public class Sprite {
     | Board sprites
     |--------------------------------------------------------------------------
      */
-    public static Sprite grass = new Sprite(16, 8, 4, SpriteSheet1.tiles, 16, 16);
-    public static Sprite brick = new Sprite(16, 6, 15, SpriteSheet1.tiles, 16, 16);
-    public static Sprite wall = new Sprite(16, 3, 13, SpriteSheet1.tiles, 16, 16);
-    public static Sprite portal = new Sprite(16, 8, 7, SpriteSheet1.tiles, 14, 14);
+    public static Sprite grass = new Sprite(16, 6, 0, SpriteSheet.tiles, 16, 16);
+    public static Sprite brick = new Sprite(16, 7, 0, SpriteSheet.tiles, 16, 16);
+    public static Sprite wall = new Sprite(16, 5, 0, SpriteSheet.tiles, 16, 16);
+    public static Sprite portal = new Sprite(16, 4, 0, SpriteSheet.tiles, 14, 14);
 
     /*
     |--------------------------------------------------------------------------
@@ -188,9 +185,9 @@ public class Sprite {
     | Brick FlameSegment
     |--------------------------------------------------------------------------
      */
-    public static Sprite brick_exploded = new Sprite(16, 8, 15, SpriteSheet1.tiles, 16, 16);
-    public static Sprite brick_exploded1 = new Sprite(16, 4, 15, SpriteSheet1.tiles, 16, 16);
-    public static Sprite brick_exploded2 = new Sprite(16, 8, 4, SpriteSheet1.tiles, 16, 16);
+    public static Sprite brick_exploded = new Sprite(16, 7, 1, SpriteSheet.tiles, 16, 16);
+    public static Sprite brick_exploded1 = new Sprite(16, 7, 2, SpriteSheet.tiles, 16, 16);
+    public static Sprite brick_exploded2 = new Sprite(16, 7, 3, SpriteSheet.tiles, 16, 16);
 
     /*
     |--------------------------------------------------------------------------

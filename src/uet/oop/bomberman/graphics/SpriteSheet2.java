@@ -7,11 +7,10 @@ import java.net.URL;
 
 public class SpriteSheet2 {
 
-    private String _path;
+    public static SpriteSheet2 tiles1 = new SpriteSheet2("/textures/classic.png", 256);
     public int SIZE;
     public int[] _pixels;
-
-    public static SpriteSheet2 tiles1 = new SpriteSheet2("/textures/classic.png", 256);
+    private String _path;
 
     public SpriteSheet2(String path, int size) {
         _path = path;

@@ -22,23 +22,24 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import static com.sun.javafx.application.PlatformImpl.exit;
+
 /**
- * Quản lý thao tác điều khiển, load level, render các màn hình của game
+ * manage controlling, loading level, render game.
  */
-public class Board  {
+public class Board {
+    public static boolean PvPMode;
+    public static boolean ai;
+    public static List<Character> _characters = new ArrayList<>();
+    public Entity[] _entities;
+    public List<Bomb> _bombs1 = new ArrayList<>();
+    public List<Bomb> _bombs2 = new ArrayList<>();
     protected LevelLoader _levelLoader;
     protected Game _game;
     protected KeyBoardSpe _input;
     protected KeyBoardSpe2 _input2;
     protected Screen _screen;
-    public static boolean PvPMode;
-    public static boolean ai;
-
-    public Entity[] _entities;
-    public static List<Character> _characters = new ArrayList<>();
-    protected List<Bomb> _bombs1 = new ArrayList<>();
-    protected List<Bomb> _bombs2 = new ArrayList<>();
-    private List<Message> _messages = new ArrayList<>();
+    private final List<Message> _messages = new ArrayList<>();
 
     private int _screenToShow = -1; //1:endgame, 2:changelevel, 3:paused
 
@@ -51,7 +52,7 @@ public class Board  {
         _input2 = input2;
         _screen = screen;
 
-        loadLevel(1); //start in level 1
+        loadLevel(5); //start in level 1
     }
 
     public void update() {
@@ -96,6 +97,7 @@ public class Board  {
         PvPMode = false;
         ai = false;
         _time = Game.TIME;
+        _points = Game.POINTS;
         _screenToShow = 2;
         _game.resetScreenDelay();
         _game.pause();
@@ -119,6 +121,7 @@ public class Board  {
         Player1._alive = true;
         Player2._alive = true;
         _time = Game.TIME;
+        _points = Game.POINTS;
         _screenToShow = 2;
         _game.resetScreenDelay();
         _game.pause();
@@ -140,6 +143,7 @@ public class Board  {
         PvPMode = false;
         ai = true;
         _time = Game.TIME;
+        _points = Game.POINTS;
         _screenToShow = 2;
         _game.resetScreenDelay();
         _game.pause();
@@ -522,6 +526,8 @@ public class Board  {
         return _levelLoader.getHeight();
     }
 
-    public Screen getScreen() { return _screen; }
+    public Screen getScreen() {
+        return _screen;
+    }
 
 }

@@ -1,7 +1,7 @@
 package uet.oop.bomberman.entities;
 
 /**
- * Entity có hiệu ứng hoạt hình
+ * Animation of enemy.
  */
 public abstract class AnimatedEntitiy extends Entity {
 

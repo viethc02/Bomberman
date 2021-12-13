@@ -27,11 +27,7 @@ public class Player1 extends Bomber {
     private List<Bomb> _bombs;
     protected KeyBoardSpe _input;
     public static boolean _alive = true;
-    public static List<Item> _items = new ArrayList<Item>();//xu li Item
-    /**
-     * nếu giá trị này < 0 thì cho phép đặt đối tượng Bomb tiếp theo,
-     * cứ mỗi lần đặt 1 Bomb mới, giá trị này sẽ được reset về 0 và giảm dần trong mỗi lần update()
-     */
+    public static List<Item> _items = new ArrayList<Item>();
     protected int _timeBetweenPutBombs = 0;
 
     public Player1(int x, int y, Board board) {
@@ -71,7 +67,7 @@ public class Player1 extends Bomber {
 
 
     /**
-     * Kiểm tra xem có đặt được bom hay không? nếu có thì đặt bom tại vị trí hiện tại của Bomber
+     * check position and place.
      */
     private void detectPlaceBomb() {
         if (_input.space && Game.getBombRate() > 0 && _timeBetweenPutBombs < 0) {
