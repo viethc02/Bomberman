@@ -5,16 +5,13 @@ import uet.oop.bomberman.Game;
 import uet.oop.bomberman.entities.AnimatedEntitiy;
 import uet.oop.bomberman.graphics.Screen;
 
-/**
- * Bao gồm Bomber và Enemy
- */
 public abstract class Character extends AnimatedEntitiy {
 
+    public int _timeAfter = 40;
     protected Board _board;
     protected int _direction = -1;
     protected boolean _alive = true;
     protected boolean _moving = false;
-    public int _timeAfter = 40;
 
 
     public Character(int x, int y, Board board) {
@@ -30,30 +27,20 @@ public abstract class Character extends AnimatedEntitiy {
     @Override
     public abstract void render(Screen screen);
 
-    /**
-     * Tính toán hướng đi
-     */
     protected abstract void calculateMove();
 
     protected abstract void move(double xa, double ya);
 
     /**
-     * Được gọi khi đối tượng bị tiêu diệt
+     * kill entity
      */
     public abstract void kill();
 
     /**
-     * Xử lý hiệu ứng bị tiêu diệt
+     * handle after killing
      */
     protected abstract void afterKill();
 
-    /**
-     * Kiểm tra xem đối tượng có di chuyển tới vị trí đã tính toán hay không
-     *
-     * @param x
-     * @param y
-     * @return
-     */
     protected abstract boolean canMove(double x, double y);
 
     protected double getXMessage() {

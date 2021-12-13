@@ -5,6 +5,7 @@ import uet.oop.bomberman.Game;
 import uet.oop.bomberman.entities.character.enemy.ai.AIHard;
 import uet.oop.bomberman.entities.character.enemy.ai.AIMedium;
 import uet.oop.bomberman.graphics.Sprite;
+
 public class Minvo extends Enemy {
 
 
@@ -14,22 +15,22 @@ public class Minvo extends Enemy {
         _sprite = Sprite.minvo_right1;
 
         _ai = new AIMedium(_board.getBomber(), this);
-        _direction  = _ai.calculateDirection();
+        _direction = _ai.calculateDirection();
     }
 
     @Override
     protected void chooseSprite() {
-        switch(_direction) {
+        switch (_direction) {
             case 0:
             case 1:
-                if(_moving)
+                if (_moving)
                     _sprite = Sprite.movingSprite(Sprite.minvo_right1, Sprite.minvo_right2, Sprite.minvo_right3, _animate, 60);
                 else
                     _sprite = Sprite.minvo_left1;
                 break;
             case 2:
             case 3:
-                if(_moving)
+                if (_moving)
                     _sprite = Sprite.movingSprite(Sprite.minvo_left1, Sprite.minvo_left2, Sprite.minvo_left3, _animate, 60);
                 else
                     _sprite = Sprite.minvo_left1;

@@ -7,7 +7,7 @@ import uet.oop.bomberman.graphics.Sprite;
 import uet.oop.bomberman.sound.Sound;
 
 public abstract class Item extends Tile {
-    protected int _duration = -1; //thoi gian cua item ,-1 la vo han
+    protected int _duration = -1; //time of item(forever)
     protected boolean _active = false;
     protected int _level;
 

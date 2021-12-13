@@ -14,9 +14,8 @@ import uet.oop.bomberman.sound.Sound;
 
 public class Bomb extends AnimatedEntitiy {
 
-    protected double _timeToExplode = 120; //2 seconds - thoi gian phat no
-    public int _timeAfter = 20;// thoi gian de no
-
+    public int _timeAfter = 20;
+    protected double _timeToExplode = 120;
     protected Board _board;
     protected Flame[] _flames;
     protected boolean _exploded = false;
@@ -75,17 +74,15 @@ public class Bomb extends AnimatedEntitiy {
     }
 
     /**
-     * Xử lý Bomb nổ
+     * handle bomb.
      */
-    protected void explode() {//nổ
+    protected void explode() {
         _exploded = true;
         _allowedToPassThru = true;
-        // TODO: xử lý khi Character đứng tại vị trí Bomb
         Character x = _board.getCharacterAtExcluding((int) _x, (int) _y, null);
         if (x != null) {
             x.kill();
         }
-        // TODO: tạo các Flame
         _flames = new Flame[4];
         for (int i = 0; i < _flames.length; i++) {
             _flames[i] = new Flame((int) _x, (int) _y, i, Game.getBombRadius(), _board);
@@ -111,7 +108,7 @@ public class Bomb extends AnimatedEntitiy {
 
     @Override
     public boolean collide(Entity e) {
-        // TODO: xử lý khi Bomber đi ra sau khi vừa đặt bom (_allowedToPassThru)
+        // handle bomber after placing bomb
 
         if (e instanceof Bomber || e instanceof Player2) {
             double diffX = e.getX() - Coordinates.tileToPixel(getX());
@@ -124,7 +121,6 @@ public class Bomb extends AnimatedEntitiy {
             return _allowedToPassThru;
         }
 
-        // TODO: xử lý va chạm với Flame của Bomb khác
         if (e instanceof Flame) {
             time_explode();
             return true;

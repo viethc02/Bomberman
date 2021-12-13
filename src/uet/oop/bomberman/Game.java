@@ -12,28 +12,19 @@ import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferInt;
 
-/**
- * Tạo vòng lặp cho game, lưu trữ một vài tham số cấu hình toàn cục,
- * Gọi phương thức render(), update() cho tất cả các entity
- */
 public class Game extends Canvas {
 
 
     public static final int TILES_SIZE = 16;
-    public static final int WIDTH = TILES_SIZE * (31/2);
+    public static final int WIDTH = TILES_SIZE * (31 / 2);
     public static final int HEIGHT = 13 * TILES_SIZE;
-
-    public static int SCALE = 3;
-
     public static final String TITLE = "BombermanGame";
-
+    public static final int TIME = 200;
+    public static final int POINTS = 0;
     private static final int BOMBRATE = 1;
     private static final int BOMBRADIUS = 1;
     private static final double BOMBERSPEED = 1.0;//toc do bomber
-
-    public static final int TIME = 200;
-    public static final int POINTS = 0;
-
+    public static int SCALE = 3;
     protected static int SCREENDELAY = 3;
 
     protected static int bombRate = BOMBRATE;
@@ -47,17 +38,17 @@ public class Game extends Canvas {
 
     protected int _screenDelay = SCREENDELAY;
 
-    private KeyBoardSpe _input;
-    private KeyBoardSpe2 _input2;
+    private final KeyBoardSpe _input;
+    private final KeyBoardSpe2 _input2;
     private boolean _running = false;
     private boolean _paused = true;
 
-    private Board _board;
-    private Screen screen;
-    private Frame _frame;
+    private final Board _board;
+    private final Screen screen;
+    private final Frame _frame;
 
-    private BufferedImage image = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
-    private int[] pixels = ((DataBufferInt) image.getRaster().getDataBuffer()).getData();
+    private final BufferedImage image = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
+    private final int[] pixels = ((DataBufferInt) image.getRaster().getDataBuffer()).getData();
 
     public Game(Frame frame) {
         _frame = frame;
@@ -72,6 +63,77 @@ public class Game extends Canvas {
         addKeyListener(_input2);
     }
 
+    public static double getBomberSpeed() {
+        return bomberSpeed;
+    }
+
+    public static void setBomberSpeed(double bomberSpeed) {
+        Game.bomberSpeed = bomberSpeed;
+    }
+
+    public static int getBombRate() {
+        return bombRate;
+    }
+
+    public static void setBombRate(int bombRate) {
+        Game.bombRate = bombRate;
+    }
+
+    public static int getBombRadius() {
+        return bombRadius;
+    }
+
+    public static void setBombRadius(int bombRadius) {
+        Game.bombRadius = bombRadius;
+    }
+
+    public static void addBomberSpeed(double i) {
+        bomberSpeed += i;
+    }
+
+    public static void addBombRadius(int i) {
+        bombRadius += i;
+    }
+
+    public static void addBombRate(int i) {
+        bombRate += i;
+    }
+
+    public static double getBomberSpeed2() {
+        return bomberSpeed2;
+    }
+
+    public static void setBomberSpeed2(double bomberSpeed) {
+        Game.bomberSpeed2 = bomberSpeed;
+    }
+
+    public static int getBombRate2() {
+        return bombRate2;
+    }
+
+    public static void setBombRate2(int bombRate) {
+        Game.bombRate2 = bombRate;
+    }
+
+    public static int getBombRadius2() {
+        return bombRadius2;
+    }
+
+    public static void setBombRadius2(int bombRadius) {
+        Game.bombRadius2 = bombRadius;
+    }
+
+    public static void addBomberSpeed2(double i) {
+        bomberSpeed2 += i;
+    }
+
+    public static void addBombRadius2(int i) {
+        bombRadius2 += i;
+    }
+
+    public static void addBombRate2(int i) {
+        bombRate2 += i;
+    }
 
     private void renderGame() {
         BufferStrategy bs = getBufferStrategy();
@@ -165,79 +227,6 @@ public class Game extends Canvas {
                     --_screenDelay;
             }
         }
-    }
-
-    public static double getBomberSpeed() {
-        return bomberSpeed;
-    }
-
-    public static int getBombRate() {
-        return bombRate;
-    }
-
-    public static int getBombRadius() {
-        return bombRadius;
-    }
-
-    public static void addBomberSpeed(double i) {
-        bomberSpeed += i;
-    }
-
-    public static void addBombRadius(int i) {
-        bombRadius += i;
-    }
-
-    public static void addBombRate(int i) {
-        bombRate += i;
-    }
-
-    public static double getBomberSpeed2() {
-        return bomberSpeed2;
-    }
-
-    public static int getBombRate2() {
-        return bombRate2;
-    }
-
-    public static int getBombRadius2() {
-        return bombRadius2;
-    }
-
-    public static void addBomberSpeed2(double i) {
-        bomberSpeed2 += i;
-    }
-
-    public static void addBombRadius2(int i) {
-        bombRadius2 += i;
-    }
-
-    public static void addBombRate2(int i) {
-        bombRate2 += i;
-    }
-
-
-    public static void setBombRate(int bombRate) {
-        Game.bombRate = bombRate;
-    }
-
-    public static void setBombRadius(int bombRadius) {
-        Game.bombRadius = bombRadius;
-    }
-
-    public static void setBomberSpeed(double bomberSpeed) {
-        Game.bomberSpeed = bomberSpeed;
-    }
-
-    public static void setBombRate2(int bombRate) {
-        Game.bombRate2 = bombRate;
-    }
-
-    public static void setBombRadius2(int bombRadius) {
-        Game.bombRadius2 = bombRadius;
-    }
-
-    public static void setBomberSpeed2(double bomberSpeed) {
-        Game.bomberSpeed2 = bomberSpeed;
     }
 
     public void resetScreenDelay() {

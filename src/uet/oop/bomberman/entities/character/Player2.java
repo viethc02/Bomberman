@@ -26,16 +26,12 @@ import uet.oop.bomberman.sound.Sound;
 
 public class Player2 extends Character {
 
-    private List<Bomb> _bombs;
-    protected KeyBoardSpe2 _input;
     public static List<Item> _items = new ArrayList<Item>();//xu li Item
     public static boolean _alive = true;
+    protected KeyBoardSpe2 _input;
     protected int _finalAnimation = 30;
-    /**
-     * nếu giá trị này < 0 thì cho phép đặt đối tượng Bomb tiếp theo,
-     * cứ mỗi lần đặt 1 Bomb mới, giá trị này sẽ được reset về 0 và giảm dần trong mỗi lần update()
-     */
     protected int _timeBetweenPutBombs2 = 0;
+    private final List<Bomb> _bombs;
 
     public Player2(int x, int y, Board board) {
         super(x, y, board);
@@ -76,15 +72,9 @@ public class Player2 extends Character {
     }
 
     /**
-     * Kiểm tra xem có đặt được bom hay không? nếu có thì đặt bom tại vị trí hiện tại của Bomber
-     *
+     * check position to place the bomb.
      */
     private void detectPlaceBomb() {
-        // TODO: kiểm tra xem phím điều khiển đặt bom có được gõ và giá trị _timeBetweenPutBombs, Game.getBombRate() có thỏa mãn hay không
-        // TODO:  Game.getBombRate() sẽ trả về số lượng bom có thể đặt liên tiếp tại thời điểm hiện tại
-        // TODO: _timeBetweenPutBombs dùng để ngăn chặn Bomber đặt 2 Bomb cùng tại 1 vị trí trong 1 khoảng thời gian quá ngắn
-        // TODO: nếu 3 điều kiện trên thỏa mãn thì thực hiện đặt bom bằng placeBomb()
-        // TODO: sau khi đặt, nhớ giảm số lượng Bomb Rate và reset _timeBetweenPutBombs về 0
         if (_input.space && Game.getBombRate2() > 0 && _timeBetweenPutBombs2 < 0) {
 
             int xt = Coordinates.pixelToTile(_x + _sprite.getSize() / 2);
@@ -97,8 +87,10 @@ public class Player2 extends Character {
         }
     }
 
+    /**
+     * create bomb.
+     */
     protected void placeBomb(int x, int y) {
-        // TODO: thực hiện tạo đối tượng bom, đặt vào vị trí (x, y)
         Bomb b = new Bomb(x, y, _board);
         _board.addBomb2(b);
         Sound.play("res/sound/BOM_SET.wav");
@@ -135,8 +127,6 @@ public class Player2 extends Character {
 
     @Override
     protected void calculateMove() {
-        // TODO: xử lý nhận tín hiệu điều khiển hướng đi từ _input và gọi move() để thực hiện di chuyển
-        // TODO: nhớ cập nhật lại giá trị cờ _moving khi thay đổi trạng thái di chuyển
         int xa = 0, ya = 0;
         if (_input.up) ya--;
         if (_input.down) ya++;
@@ -150,7 +140,6 @@ public class Player2 extends Character {
 
     @Override
     public boolean canMove(double x, double y) {
-        // TODO: kiểm tra có đối tượng tại vị trí chuẩn bị di chuyển đến và có thể di chuyển tới đó hay không
         for (int c = 0; c < 4; c++) { //colision detection for each corner of the player
             double xt = ((_x + x) + c % 2 * 9) / Game.TILES_SIZE; //divide with tiles size to pass to tile coordinate
             double yt = ((_y + y) + c / 2 * 10 - 13) / Game.TILES_SIZE; //these values are the best from multiple tests
@@ -167,8 +156,6 @@ public class Player2 extends Character {
 
     @Override
     public void move(double xa, double ya) {
-        // TODO: sử dụng canMove() để kiểm tra xem có thể di chuyển tới điểm đã tính toán hay không và thực hiện thay đổi tọa độ _x, _y
-        // TODO: nhớ cập nhật giá trị _direction sau khi di chuyển
         if (xa > 0) _direction = 1;
         if (xa < 0) _direction = 3;
         if (ya > 0) _direction = 2;
@@ -185,8 +172,6 @@ public class Player2 extends Character {
 
     @Override
     public boolean collide(Entity e) {
-        // TODO: xử lý va chạm với Flame
-        // TODO: xử lý va chạm với Enemy
         if (e instanceof Flame) {
             this.kill();
             return false;

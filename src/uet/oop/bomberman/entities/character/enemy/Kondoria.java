@@ -13,22 +13,22 @@ public class Kondoria extends EnemyOther {
         _sprite = Sprite.kondoria_right1;
 
         _ai = new AIHard(_board.getBomber(), this, _board); //TODO: implement AIHigh
-        _direction  = _ai.calculateDirection();
+        _direction = _ai.calculateDirection();
     }
 
     @Override
     protected void chooseSprite() {
-        switch(_direction) {
+        switch (_direction) {
             case 0:
             case 1:
-                if(_moving)
+                if (_moving)
                     _sprite = Sprite.movingSprite(Sprite.kondoria_right1, Sprite.kondoria_right2, Sprite.kondoria_right3, _animate, 60);
                 else
                     _sprite = Sprite.kondoria_left1;
                 break;
             case 2:
             case 3:
-                if(_moving)
+                if (_moving)
                     _sprite = Sprite.movingSprite(Sprite.kondoria_left1, Sprite.kondoria_left2, Sprite.kondoria_left3, _animate, 60);
                 else
                     _sprite = Sprite.kondoria_left1;

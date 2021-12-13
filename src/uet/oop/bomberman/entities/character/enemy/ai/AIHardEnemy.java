@@ -2,10 +2,13 @@ package uet.oop.bomberman.entities.character.enemy.ai;
 
 import javafx.util.Pair;
 import uet.oop.bomberman.Board;
+import uet.oop.bomberman.entities.Entity;
+import uet.oop.bomberman.entities.LayeredEntity;
 import uet.oop.bomberman.entities.character.Bomber;
 import uet.oop.bomberman.entities.character.enemy.Enemy;
 import uet.oop.bomberman.entities.character.enemy.EnemyOther;
 import uet.oop.bomberman.entities.tile.Grass;
+import uet.oop.bomberman.entities.tile.destroyable.Brick;
 import uet.oop.bomberman.level.FileLevelLoader;
 
 import java.util.LinkedList;
@@ -22,9 +25,27 @@ public class AIHardEnemy extends AI {
         _board = board;
     }
 
+    public boolean checkPos(int posX, int posY) {
+        if (posX >= 0 && posY >= 0 && posY < _board.getHeight() && posY < _board.getWidth()) {
+            Entity entity = _board.getEntityAt(posX, posY);
+            if (entity instanceof Grass) {
+                return true;
+            } else if (entity instanceof LayeredEntity) {
+                LayeredEntity le = (LayeredEntity) entity;
+                for (int i = 0; i < le._entities.size(); i++) {
+                    if (le._entities.get(i) instanceof Brick) {
+                        return false;
+                    }
+                }
+                return true;
+            }
+            return false;
+        }
+        return false;
+    }
+
     @Override
     public int calculateDirection() {
-        // TODO: cài đặt thuật toán tìm đường đi
         int xEnemy = _e.getXTile();
         int yEnemy = _e.getYTile();
 
@@ -86,8 +107,8 @@ public class AIHardEnemy extends AI {
                     continue;
                 }
 
-                if (_board.getEntityAt(newX, newY) instanceof Grass &&
-                        !dx[newY][newX]) {
+
+                if (checkPos(newX, newY) && !dx[newY][newX]) {
                     dx[newY][newX] = true;
                     tr[newY][newX] = p;
 

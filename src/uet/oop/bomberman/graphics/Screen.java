@@ -10,9 +10,6 @@ import uet.oop.bomberman.entities.character.Player2;
 
 import java.awt.*;
 
-/**
- * Xử lý render cho tất cả Entity và một số màn hình phụ ra Game Panel
- */
 public class Screen {
     protected int _width, _height;
     public int[] _pixels;

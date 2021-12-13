@@ -16,13 +16,11 @@ import uet.oop.bomberman.sound.Sound;
 import java.awt.*;
 
 public abstract class EnemyOther extends Character {
-    protected int _points;
-
-    protected double _speed;
-    protected AI _ai;
-
     protected final double MAX_STEPS;
     protected final double rest;
+    protected int _points;
+    protected double _speed;
+    protected AI _ai;
     protected double _steps;
 
     protected int _finalAnimation = 30;
@@ -75,10 +73,6 @@ public abstract class EnemyOther extends Character {
 
     @Override
     public void calculateMove() {
-        // TODO: Tính toán hướng đi và di chuyển Enemy theo _ai và cập nhật giá trị cho _direction
-        // TODO: sử dụng canMove() để kiểm tra xem có thể di chuyển tới điểm đã tính toán hay không
-        // TODO: sử dụng move() để di chuyển
-        // TODO: nhớ cập nhật lại giá trị cờ _moving khi thay đổi trạng thái di chuyển
         _moving = false;
         int xa = 0, ya = 0;
         if (_steps <= 0) {

@@ -22,7 +22,6 @@ public class AIHard extends AI {
 
     @Override
     public int calculateDirection() {
-        // TODO: cài đặt thuật toán tìm đường đi
         int xEnemy = _e.getXTile();
         int yEnemy = _e.getYTile();
 
