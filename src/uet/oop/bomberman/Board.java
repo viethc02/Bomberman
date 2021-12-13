@@ -52,7 +52,7 @@ public class Board {
         _input2 = input2;
         _screen = screen;
 
-        loadLevel(5); //start in level 1
+        loadLevel(1); //start in level 1
     }
 
     public void update() {
