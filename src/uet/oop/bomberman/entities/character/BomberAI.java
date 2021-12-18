@@ -73,6 +73,7 @@ public class BomberAI extends Bomber {
         return null;
     }
 
+    @Override
     public void update() {
         clearBombs();
 
@@ -104,6 +105,7 @@ public class BomberAI extends Bomber {
         screen.renderEntity((int) _x, (int) _y - _sprite.SIZE, this);
     }
 
+    @Override
     public void calculateXOffset() {
         int xScroll = Screen.calculateXOffset(_board, this);
         Screen.setOffset(xScroll, 0);
@@ -125,6 +127,7 @@ public class BomberAI extends Bomber {
         }
     }
 
+    @Override
     protected void placeBomb(int x, int y) {
         Bomb b = new Bomb(x, y, _board);
         _board.addBomb1(b);
@@ -160,6 +163,7 @@ public class BomberAI extends Bomber {
         }
     }
 
+    @Override
     protected void calculateMove() {
         int xa = 0, ya = 0;
         if (_steps <= 0) {
@@ -208,6 +212,7 @@ public class BomberAI extends Bomber {
         //return false;
     }
 
+    @Override
     public void move(double xa, double ya) {
         if (xa > 0) _direction = 1;
         if (xa < 0) _direction = 3;

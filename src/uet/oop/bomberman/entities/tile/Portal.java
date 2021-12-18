@@ -6,7 +6,9 @@ import uet.oop.bomberman.entities.Entity;
 import uet.oop.bomberman.entities.character.Bomber;
 import uet.oop.bomberman.entities.character.BomberAI;
 import uet.oop.bomberman.entities.tile.item.Item;
+import uet.oop.bomberman.graphics.Screen;
 import uet.oop.bomberman.graphics.Sprite;
+import uet.oop.bomberman.level.Coordinates;
 import uet.oop.bomberman.sound.Sound;
 
 public class Portal extends Tile {
@@ -21,7 +23,7 @@ public class Portal extends Tile {
     public boolean collide(Entity e) {
         if (e instanceof Bomber) {
 
-            if (_board.detectNoEnemies() == false)
+            if (!_board.detectNoEnemies())
                 return false;
 
             if (e.getXTile() == getX() && e.getYTile() == getY()) {
@@ -37,4 +39,16 @@ public class Portal extends Tile {
         return true;
     }
 
+    @Override
+    public void render(Screen screen) {
+        int x = Coordinates.tileToPixel(_x);
+        int y = Coordinates.tileToPixel(_y);
+
+        if (_board.detectNoEnemies()) {
+            _sprite = Sprite.movingSprite(Sprite.portal_close, Sprite.portal_open, 0, 2);
+            screen.renderEntityWithBelowSprite(x, y, this, Sprite.portal_open);
+        } else {
+            screen.renderEntity(x, y, this);
+        }
+    }
 }

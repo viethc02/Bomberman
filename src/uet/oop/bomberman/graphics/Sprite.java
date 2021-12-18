@@ -18,7 +18,9 @@ public class Sprite {
     public static Sprite grass = new Sprite(16, 6, 0, SpriteSheet.tiles, 16, 16);
     public static Sprite brick = new Sprite(16, 7, 0, SpriteSheet.tiles, 16, 16);
     public static Sprite wall = new Sprite(16, 5, 0, SpriteSheet.tiles, 16, 16);
-    public static Sprite portal = new Sprite(16, 4, 0, SpriteSheet.tiles, 14, 14);
+    //public static Sprite portal = new Sprite(16, 4, 0, SpriteSheet.tiles, 14, 14);
+    public static Sprite portal_close = new Sprite(16, 8, 7, SpriteSheet1.tiles, 14, 14);
+    public static Sprite portal_open = new Sprite(16, 9, 7, SpriteSheet1.tiles, 14, 14);
 
     /*
     |--------------------------------------------------------------------------

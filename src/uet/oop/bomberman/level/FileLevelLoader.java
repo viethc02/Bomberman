@@ -87,7 +87,9 @@ public class FileLevelLoader extends LevelLoader {
                     case 'x':
                         _board.addEntity(pos, new LayeredEntity(x, y,
                                 new Grass(x, y, Sprite.grass),
-                                new Portal(x, y, _board, Sprite.portal),
+                                //new Portal(x, y, _board, Sprite.portal),
+                                //new Portal(x, y, _board, Sprite.portal_open),
+                                new Portal(x, y, _board, Sprite.portal_close),
                                 new Brick(x, y, Sprite.brick)));
                         break;
                     case '*':

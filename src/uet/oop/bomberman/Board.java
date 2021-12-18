@@ -192,8 +192,20 @@ public class Board {
 
             _levelLoader.createEntities();
         } catch (LoadLevelException e) {
-            endGame();
+            winGame();
         }
+//        if (level < 2) {
+//            try {
+//                _levelLoader = new FileLevelLoader(this, level);
+//            } catch(LoadLevelException e) {
+//                e.printStackTrace();
+//            }
+//            _entities = new Entity[_levelLoader.getHeight() * _levelLoader.getWidth()];
+//
+//            _levelLoader.createEntities();
+//        } else {
+//            winGame();
+//        }
     }
 
     protected void detectEndGame() {
@@ -209,6 +221,12 @@ public class Board {
 
     public void endGamePvP() {
         _screenToShow = 4;
+        _game.resetScreenDelay();
+        _game.pause();
+    }
+
+    public void winGame() {
+        _screenToShow = 5;
         _game.resetScreenDelay();
         _game.pause();
     }
@@ -250,6 +268,9 @@ public class Board {
                 break;
             case 4:
                 _screen.drawEndGamePvP(g);
+                break;
+            case 5:
+                _screen.drawWinGame(g, _points);
                 break;
         }
     }

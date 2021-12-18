@@ -10,7 +10,7 @@ public class DestroyableTile extends Tile {
     private final int MAX_ANIMATE = 7500;
     private int _animate = 0;
     protected boolean _destroyed = false;
-    protected int _timeToDisapear = 20;
+    protected int _timeToDisappear = 20;
     protected Sprite _belowSprite = Sprite.grass;
 
     public DestroyableTile(int x, int y, Sprite sprite) {
@@ -22,8 +22,8 @@ public class DestroyableTile extends Tile {
         if (_destroyed) {
             if (_animate < MAX_ANIMATE) _animate++;
             else _animate = 0;
-            if (_timeToDisapear > 0)
-                _timeToDisapear--;
+            if (_timeToDisappear > 0)
+                _timeToDisappear--;
             else
                 remove();
         }
