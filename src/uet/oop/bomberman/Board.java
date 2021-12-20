@@ -186,26 +186,26 @@ public class Board {
             level = 10;
         }
 
-        try {
-            _levelLoader = new FileLevelLoader(this, level);
-            _entities = new Entity[_levelLoader.getHeight() * _levelLoader.getWidth()];
-
-            _levelLoader.createEntities();
-        } catch (LoadLevelException e) {
-            winGame();
-        }
-//        if (level < 2) {
-//            try {
-//                _levelLoader = new FileLevelLoader(this, level);
-//            } catch(LoadLevelException e) {
-//                e.printStackTrace();
-//            }
+//        try {
+//            _levelLoader = new FileLevelLoader(this, level);
 //            _entities = new Entity[_levelLoader.getHeight() * _levelLoader.getWidth()];
 //
 //            _levelLoader.createEntities();
-//        } else {
+//        } catch (LoadLevelException e) {
 //            winGame();
 //        }
+        if (level < 6 || level == 10) {
+            try {
+                _levelLoader = new FileLevelLoader(this, level);
+            } catch(LoadLevelException e) {
+                e.printStackTrace();
+            }
+            _entities = new Entity[_levelLoader.getHeight() * _levelLoader.getWidth()];
+
+            _levelLoader.createEntities();
+        } else {
+            winGame();
+        }
     }
 
     protected void detectEndGame() {
